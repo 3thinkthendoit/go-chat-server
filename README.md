@@ -1,13 +1,13 @@
-# Lumen-IM 服务端（golang）
+# Go-Chat 服务端（golang）
 
 ## 项目简介
 
 
-Lumen IM 是一个网页版即时聊天系统，界面简约、美观、操作简单且容易进行二次开发。
+Go-Chat 是一个网页版即时聊天系统，界面简约、美观、操作简单且容易进行二次开发。后端采用GO开发，前端网页版采用Vue开发
 
 ##### 使用技术
 
-- Golang 1.23+
+- Golang 1.21+
 - MySQL 8.0
 - Redis 5.0+
 - Minio1
@@ -16,7 +16,7 @@ Lumen IM 是一个网页版即时聊天系统，界面简约、美观、操作�
 
 - 支持 WebSocket 通信
 - 支持私聊及群聊以及房间聊天场景
-- 支持服务水平扩展
+- 支持服务水平扩展,分布式部署
 - 支持聊天消息类型有 文本、代码块、 图片及其它类型文件
 - 支持聊天消息撤回、删除或批量删除、转发消息（逐条转发、合并转发）及群投票功能
 
@@ -25,8 +25,7 @@ Lumen IM 是一个网页版即时聊天系统，界面简约、美观、操作�
 ## 项目预览
 
 - 地址： [https://im.gzydong.com](https://im.gzydong.com)
-- 账号： 18798272054 或 18798272055
-- 密码： admin123
+- 注册手机号随便填写，无需验证码
 
 ## 项目安装
 
@@ -65,10 +64,10 @@ $ go run ./cmd/lumenim migrate
 ``` bash
 # 打开两个终端，分别运行下面两个命令
 
-$ go run ./cmd/lumenim http      # 本地启动 http 服务
-$ go run ./cmd/lumenim comet    # 本地启动 websocket 服务
-$ go run ./cmd/lumenim queue     # 启动异步队列
-$ go run ./cmd/lumenim cron      # 启动定时任务
+$ go run ./cmd/im http      # 本地启动 http 服务
+$ go run ./cmd/im commet    # 本地启动 websocket 服务
+$ go run ./cmd/im queue     # 启动异步队列
+$ go run ./cmd/im cron      # 启动定时任务
 ```
 
 7. 编译后运行
@@ -76,5 +75,5 @@ $ go run ./cmd/lumenim cron      # 启动定时任务
 ``` bash
 $ make build                   # 执行编译命令
 
-# 执行后可在 ./bin 目录下看到 lumenim
+# 执行后可在 ./bin 目录下看到 go-im-server
 ```
