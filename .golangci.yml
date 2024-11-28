@@ -1,0 +1,6 @@
+service:
+  golangci-lint-version: 1.55.2
+
+run:
+  skip-dirs:
+    - runtime
