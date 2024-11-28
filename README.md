@@ -2,13 +2,13 @@
 
 ## 项目简介
 
-本项目基于https://github.com/gzydong/LumenIM 二次开发
+本项目基于 [LumenIM](https://github.com/gzydong/LumenIM) 二次开发
 
 Go-Chat 是一个网页版即时聊天系统，界面简约、美观、操作简单且容易进行二次开发。后端采用GO开发，前端网页版采用Vue开发
 
 ##### 使用技术
 
-- Golang 1.21+
+- Golang 1.23+
 - MySQL 8.0
 - Redis 5.0+
 - Minio1
@@ -33,7 +33,7 @@ Go-Chat 是一个网页版即时聊天系统，界面简约、美观、操作简
 1. 下载源码
 
 ```git
-$ git clone https://github.com/gzydong/go-chat.git
+$ git clone https://github.com/3thinkthendoit/go-chat-server.git
 ```
 
 1. 拷贝项目根目录下 config.example.yaml 文件为 config.yaml 并正确配置相关参数
@@ -57,7 +57,7 @@ $ make install
 5. 初始化数据库
 
 ``` bash
-$ go run ./cmd/lumenim migrate
+$ go run ./cmd/im migrate
 ```
 
 6. 开发环境下启动服务
@@ -74,7 +74,7 @@ $ go run ./cmd/im cron      # 启动定时任务
 7. 编译后运行
 
 ``` bash
-$ make build                   # 执行编译命令
+$ build.bat                   # 执行编译命令
 
 # 执行后可在 ./bin 目录下看到 go-im-server
 ```

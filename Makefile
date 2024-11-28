@@ -32,23 +32,23 @@ test:
 	go test -v ./...
 
 http:
-	go run ./cmd/lumenim http
+	go run ./cmd/im http
 
-comet:
-	go run ./cmd/lumenim comet
+comet:im
+	go run ./cmd/im comet
 
 migrate:
-	go run ./cmd/lumenim migrate
+	go run ./cmd/im migrate
 
 queue:
-	go run ./cmd/lumenim queue
+	go run ./cmd/im queue
 
 crontab:
-	go run ./cmd/lumenim crontab
+	go run ./cmd/im crontab
 
 .PHONY: build
 build:
-	go build -o ./bin/lumenim ./cmd/lumenim
+	go build -o ./bin/go-chat-server ./cmd/im
 
 .PHONY: build-all
 build-all:

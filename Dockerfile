@@ -34,8 +34,8 @@ RUN apk add --no-cache tzdata && \
 WORKDIR /work/
 
 # 从构建阶段复制可执行文件到最终镜像
-COPY --from=builder /builder/lumenim .
+COPY --from=builder /builder/go-chat-server .
 
 # 运行可执行文件
-ENTRYPOINT ["./lumenim"]
+ENTRYPOINT ["./go-chat-server"]
 CMD ["--help"]
