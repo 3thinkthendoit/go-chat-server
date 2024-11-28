@@ -2,7 +2,7 @@
 
 ## 项目简介
 
-基于   (https://github.com/gzydong/LumenIM)[LumenIM] 二次开发
+本项目基于[LumenIM] 二次开发
 
 Go-Chat 是一个网页版即时聊天系统，界面简约、美观、操作简单且容易进行二次开发。后端采用GO开发，前端网页版采用Vue开发
 
