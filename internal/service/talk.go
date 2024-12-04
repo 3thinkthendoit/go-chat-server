@@ -5,7 +5,10 @@ import (
 	"errors"
 	"time"
 
+	"go-chat/internal/business"
 	"go-chat/internal/entity"
+	"go-chat/internal/pkg/jsonutil"
+	"go-chat/internal/pkg/logger"
 	"go-chat/internal/repository/model"
 	"go-chat/internal/repository/repo"
 
@@ -35,6 +38,7 @@ type ITalkService interface {
 type TalkService struct {
 	*repo.Source
 	GroupMemberRepo *repo.GroupMember
+	PushMessage     *business.PushMessage
 }
 
 // DeleteRecord 删除消息记录
@@ -102,9 +106,14 @@ func (t *TalkService) Revoke(ctx context.Context, opt *TalkRevokeOption) error {
 			return errors.New("超出有效撤回时间范围，无法进行撤销！")
 		}
 
-		return db.Model(&model.TalkUserMessage{}).
+		err = db.Model(&model.TalkUserMessage{}).
 			Where("org_msg_id = ?", record.OrgMsgId).
 			Update("is_revoked", model.Yes).Error
+		if err == nil {
+			record.IsRevoked = model.Yes
+			go t.PublishRevoke(ctx, opt, record)
+		}
+		return err
 
 	case entity.ChatGroupMode:
 		var record model.TalkGroupMessage
@@ -126,10 +135,37 @@ func (t *TalkService) Revoke(ctx context.Context, opt *TalkRevokeOption) error {
 			return errors.New("超出有效撤回时间范围，无法进行撤销！")
 		}
 
-		return db.Model(&model.TalkGroupMessage{}).
+		err = db.Model(&model.TalkGroupMessage{}).
 			Where("msg_id = ?", record.MsgId).
 			Update("is_revoked", model.Yes).Error
+		if err == nil {
+			record.IsRevoked = model.Yes
+			go t.PublishRevoke(ctx, opt, record)
+		}
+		return err
 	}
 
 	return errors.New("暂不支持撤回消息")
+}
+
+// 广播撤回消息
+func (t *TalkService) PublishRevoke(ctx context.Context, opt *TalkRevokeOption, msg any) {
+	// content := &entity.SubscribeMessage{
+	// 	Event: entity.SubEventImMessageRevoke,
+	// 	Payload: jsonutil.Encode(entity.SubEventImMessagePayload{
+	// 		TalkMode: opt.TalkMode,
+	// 		Message:  jsonutil.Encode(record),
+	// 	}),
+	// }
+	// err := t.PushMessage.Push(ctx, entity.ImTopicChat, content)
+	err := t.PushMessage.Push(ctx, entity.ImTopicChat, &entity.SubscribeMessage{
+		Event: entity.SubEventImMessageRevoke,
+		Payload: jsonutil.Encode(entity.SubEventImMessagePayload{
+			TalkMode: opt.TalkMode,
+			Message:  jsonutil.Encode(msg),
+		}),
+	})
+	if err != nil {
+		logger.Errorf("publishRevoke redis push err:%s", err.Error())
+	}
 }

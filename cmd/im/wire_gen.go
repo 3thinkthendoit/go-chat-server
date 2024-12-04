@@ -111,9 +111,13 @@ func NewHttpInjector(conf *config.Config) *apis.AppProvider {
 	repoContact := repo.NewContact(db, contactRemark, relation)
 	repoGroup := repo.NewGroup(db)
 	groupMember := repo.NewGroupMember(db, relation)
+	pushMessage := &business.PushMessage{
+		Redis: client,
+	}
 	talkService := &service.TalkService{
 		Source:          source,
 		GroupMemberRepo: groupMember,
+		PushMessage:     pushMessage,
 	}
 	talkSession := repo.NewTalkSession(db)
 	talkSessionService := &service.TalkSessionService{
@@ -122,9 +126,6 @@ func NewHttpInjector(conf *config.Config) *apis.AppProvider {
 	}
 	sequence := cache.NewSequence(client)
 	repoSequence := repo.NewSequence(db, sequence)
-	pushMessage := &business.PushMessage{
-		Redis: client,
-	}
 	groupService := &service.GroupService{
 		Source:          source,
 		GroupRepo:       repoGroup,
